@@ -48,7 +48,7 @@ export default function Home() {
         {/* --- Sección "Sobre mí" --- */}
         <section id="about" className="text-center mb-24">
           <h1 className="text-5xl sm:text-6xl font-bold mb-4 text-gray-900">
-            Benjamin Villablanca
+            Benjamin Villablanca Zuñiga
           </h1>
           <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-gray-700">
             Sobre mí

@@ -1,4 +1,13 @@
+"use client";
+import { use, useState } from "react";
+
 const Navigationbar = () => {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
   return (
     <nav className="bg-white border-gray-200 dark:bg-gray-900 rounded-2xl shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
@@ -12,13 +21,13 @@ const Navigationbar = () => {
 
         {/* Botón hamburguesa (responsive) */}
         <button
-          data-collapse-toggle="navbar-default"
+          onClick={toggleMenu}
           type="button"
           className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden 
                      hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 
                      dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
           aria-controls="navbar-default"
-          aria-expanded="false"
+          aria-expanded={isMenuOpen}
         >
           <span className="sr-only">Abrir menú principal</span>
           <svg
@@ -39,7 +48,12 @@ const Navigationbar = () => {
         </button>
 
         {/* Menú principal */}
-        <div className="hidden w-full md:block md:w-auto" id="navbar-default">
+        <div
+          className={`${
+            isMenuOpen ? "block" : "hidden"
+          } w-full md:block md:w-auto`}
+          id="navbar-default"
+        >
           <ul
             className="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg 
                        bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 
@@ -49,6 +63,7 @@ const Navigationbar = () => {
             <li>
               <a
                 href="#about"
+                onClick={() => setIsMenuOpen(false)}
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 
                            md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 
                            dark:text-white md:dark:hover:text-blue-500 
@@ -60,6 +75,7 @@ const Navigationbar = () => {
             <li>
               <a
                 href="#lenguajes"
+                onClick={() => setIsMenuOpen(false)}
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 
                            md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 
                            dark:text-white md:dark:hover:text-blue-500 
@@ -71,6 +87,7 @@ const Navigationbar = () => {
             <li>
               <a
                 href="#proyectos"
+                onClick={() => setIsMenuOpen(false)}
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 
                            md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 
                            dark:text-white md:dark:hover:text-blue-500 
@@ -82,6 +99,7 @@ const Navigationbar = () => {
             <li>
               <a
                 href="#contacto"
+                onClick={() => setIsMenuOpen(false)}
                 className="block py-2 px-3 text-gray-900 rounded-sm hover:bg-gray-100 
                            md:hover:bg-transparent md:border-0 md:hover:text-blue-700 md:p-0 
                            dark:text-white md:dark:hover:text-blue-500 
