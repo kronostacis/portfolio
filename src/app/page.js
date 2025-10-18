@@ -19,7 +19,7 @@ export default function Home() {
   const [respuesta, setRespuesta] = useState("");
 
   const webhookURL =
-    "https://n.bvillablanca.dev/webhook-test/d88f68b3-ef6e-4e7a-9bf3-97321a188108";
+    "https://n.bvillablanca.dev/webhook/d88f68b3-ef6e-4e7a-9bf3-97321a188108";
 
   const handleSubmit = async (e) => {
     e.preventDefault();
