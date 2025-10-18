@@ -1,4 +1,6 @@
+"use client";
 import { enviarContacto } from "./actions";
+import React, { useState } from "react";
 import Navigationbar from "@/components/navbar";
 import {
   Card,
@@ -11,6 +13,39 @@ import {
 import { Button } from "@/components/ui/button";
 
 export default function Home() {
+  const [nombre, setNombre] = useState("");
+  const [correo, setCorreo] = useState("");
+  const [descripcion, setDescripcion] = useState("");
+  const [respuesta, setRespuesta] = useState("");
+
+  const webhookURL =
+    "https://n.bvillablanca.dev/webhook-test/d88f68b3-ef6e-4e7a-9bf3-97321a188108";
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const data = {
+      nombre,
+      correo,
+      descripcion,
+    };
+
+    try {
+      const res = await fetch(webhookURL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+
+      if (!res.ok) throw new Error("Error al enviar datos");
+
+      setRespuesta("Mensaje enviado correctamente");
+    } catch (error) {
+      setRespuesta("Error al enviar el mensaje");
+      console.error(error);
+    }
+  };
+
   return (
     <div className="font-sans min-h-screen bg-gradient-to-b from-gray-50 to-gray-100 text-gray-800">
       {/* Navbar ocupa todo el ancho */}
@@ -296,8 +331,7 @@ export default function Home() {
 
           <Card className="max-w-2xl mx-auto border border-gray-200 shadow-lg">
             <CardContent className="pt-8 pb-8">
-              <form action={enviarContacto} className="space-y-6">
-                {/* Campo Nombre */}
+              <form onSubmit={handleSubmit} className="space-y-6">
                 <div className="space-y-2 text-left">
                   <label
                     htmlFor="nombre"
@@ -312,10 +346,11 @@ export default function Home() {
                     placeholder="Tu nombre"
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                    value={nombre}
+                    onChange={(e) => setNombre(e.target.value)}
                   />
                 </div>
 
-                {/* Campo Correo */}
                 <div className="space-y-2 text-left">
                   <label
                     htmlFor="correo"
@@ -330,10 +365,11 @@ export default function Home() {
                     placeholder="tu@email.com"
                     required
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent transition-all"
+                    value={correo}
+                    onChange={(e) => setCorreo(e.target.value)}
                   />
                 </div>
 
-                {/* Campo Descripción */}
                 <div className="space-y-2 text-left">
                   <label
                     htmlFor="descripcion"
@@ -348,16 +384,19 @@ export default function Home() {
                     required
                     rows={6}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-gray-900 focus:border-transparent resize-none transition-all"
+                    value={descripcion}
+                    onChange={(e) => setDescripcion(e.target.value)}
                   />
                 </div>
 
-                {/* Botón de envío */}
-                <Button
+                <button
                   type="submit"
                   className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-200 py-6 text-base font-semibold"
                 >
                   📧 Enviar Mensaje
-                </Button>
+                </button>
+
+                {respuesta && <p>{respuesta}</p>}
               </form>
             </CardContent>
           </Card>
