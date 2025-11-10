@@ -145,18 +145,6 @@ export default function Home() {
                 </CardContent>
               </Card>
 
-              {/* R */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/r"
-                    alt="R"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">R</h4>
-                </CardContent>
-              </Card>
-
               {/* React */}
               <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
                 <CardContent className="pt-8 pb-6 text-center">
