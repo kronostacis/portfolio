@@ -1,16 +1,16 @@
 "use client";
 import { enviarContacto } from "./actions";
 import React, { useState } from "react";
-import Navigationbar from "@/components/navbar";
+import Navigationbar from "@/app/components/navbar";
+import ExperienceTimeline from "@/app/components/ExperienceTimeline";
 import {
   Card,
   CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+} from "@/app/components/ui/card";
+import { AboutMe } from "@/app/components/AboutMe";
+import { Languages } from "@/app/components/Languages";
+import { Button } from "@/app/components/ui/button";
+import { Projects } from "@/app/components/Projects";
 
 export default function Home() {
   const [nombre, setNombre] = useState("");
@@ -23,15 +23,15 @@ export default function Home() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    
     const data = {
-      nombre,
-      correo,
-      descripcion,
+      name: nombre,
+      email: correo,
+      message: descripcion,
     };
 
     try {
-      const res = await fetch(webhookURL, {
+      const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
@@ -40,6 +40,12 @@ export default function Home() {
       if (!res.ok) throw new Error("Error al enviar datos");
 
       setRespuesta("Mensaje enviado correctamente");
+      setNombre("");
+      setCorreo("");
+      setDescripcion("");
+      setTimeout(() => {
+        setRespuesta("");
+      }, 5000);
     } catch (error) {
       setRespuesta("Error al enviar el mensaje");
       console.error(error);
@@ -56,17 +62,16 @@ export default function Home() {
         {/* --- Sección de disponibilidad --- */}
         <section className="text-center mb-24">
           <p className="text-lg text-gray-600 mb-8">
-            Actualmente me encuentro{" "}
-            <span className="text-green-600 font-semibold">
-              disponible para realizar mi práctica profesional
+            Actualmente{" "}
+            <span className="text-red-600 font-semibold">
+              no disponible para trabajar
             </span>{" "}
-            en el área de análisis de datos o desarrollo.
           </p>
 
           <div className="flex flex-col items-center gap-6">
-            <div className="flex items-center gap-3 text-green-600 font-medium text-base">
-              <span className="w-3 h-3 bg-green-500 rounded-full animate-pulse"></span>
-              Disponible para práctica profesional
+            <div className="flex items-center gap-3 text-red-600 font-medium text-base">
+              <span className="w-3 h-3 bg-red-500 rounded-full animate-pulse"></span>
+              No disponible para trabajar
             </div>
 
             <Button
@@ -80,233 +85,19 @@ export default function Home() {
           </div>
         </section>
 
-        {/* --- Sección "Sobre mí" --- */}
-        <section id="about" className="text-center mb-24">
-          <h1 className="text-5xl sm:text-6xl font-bold mb-4 text-gray-900">
-            Benjamin Villablanca Zuñiga
-          </h1>
-          <h2 className="text-3xl sm:text-4xl font-bold mb-8 text-gray-700">
-            Sobre mí
-          </h2>
-          <p className="max-w-3xl mx-auto text-lg text-gray-700 leading-relaxed text-justify hyphens-auto">
-            Soy estudiante de Ingeniería Civil Informática en la Universidad
-            Católica del Maule, Chile, con un fuerte interés en la tecnología y
-            el análisis de datos, seguido del desarrollo backend y bases de
-            datos. Me apasiona aprender nuevas tecnologías y me gustaria aplicar
-            mis conocimientos en proyectos innovadores.
-          </p>
-        </section>
+        <AboutMe />
 
-        {/* --- Sección "Lenguajes y Tecnologías" --- */}
-        <section id="lenguajes" className="mb-24">
+        {/* --- Sección Experiencia --- */}
+        <section id="experiencia" className="mb-24">
           <h3 className="text-3xl sm:text-4xl font-bold mb-10 text-gray-900 text-center">
-            Lenguajes y Tecnologías
+            Experiencia
           </h3>
-
-          <div className="max-w-5xl mx-auto">
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-              {/* Python */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/python"
-                    alt="Python"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    Python
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* JavaScript */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/javascript"
-                    alt="JavaScript"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    JavaScript
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* SQL */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/mysql"
-                    alt="SQL"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">SQL</h4>
-                </CardContent>
-              </Card>
-
-              {/* React */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/react"
-                    alt="React"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    React
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* FastAPI */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/fastapi"
-                    alt="FastAPI"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    FastAPI
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* Docker */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/docker"
-                    alt="Docker"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    Docker
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* Power BI */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://logo.svgcdn.com/l/microsoft-power-bi.svg"
-                    alt="Power BI"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    Power BI
-                  </h4>
-                </CardContent>
-              </Card>
-
-              {/* Qlik */}
-              <Card className="hover:shadow-xl hover:scale-105 transition-all duration-300 border border-gray-200">
-                <CardContent className="pt-8 pb-6 text-center">
-                  <img
-                    src="https://cdn.simpleicons.org/qlik"
-                    alt="Qlik"
-                    className="w-16 h-16 mx-auto mb-4"
-                  />
-                  <h4 className="font-semibold text-gray-900 text-base">
-                    Qlik
-                  </h4>
-                </CardContent>
-              </Card>
-            </div>
-          </div>
+          <ExperienceTimeline />
         </section>
 
-        {/* --- Sección "Proyectos académicos" --- */}
-        <section id="proyectos" className="mb-24">
-          <h3 className="text-3xl sm:text-4xl font-bold mb-10 text-gray-900 text-center">
-            Proyectos Académicos
-          </h3>
+        <Languages />
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
-            {/* Proyecto 1 */}
-            <Card className="hover:shadow-2xl transition-shadow duration-300 border border-gray-200 flex flex-col">
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Sistema de Gestión de Ventas e Inventario
-                </CardTitle>
-                <CardDescription className="text-base leading-relaxed">
-                  Sistema web que automatiza la gestión de ventas y control de
-                  inventario. Permite mejorar la eficiencia y trazabilidad del
-                  proceso de ventas.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-gray-700 text-sm">
-                  <span className="font-semibold">Tecnologías:</span> Next.js,
-                  Prisma ORM, MySQL, Tailwind CSS.
-                </p>
-              </CardContent>
-              <CardFooter className="flex gap-3 pt-4">
-                <Button asChild variant="outline" className="flex-1">
-                  <a
-                    href="https://github.com/kronostacis/ing-software-punto-venta"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ver código
-                  </a>
-                </Button>
-                {/*  <Button asChild className="flex-1">
-                  <a
-                    href="https://tu-demo.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ver demo
-                  </a>
-                </Button> */}
-              </CardFooter>
-            </Card>
-
-            {/* Proyecto 2 */}
-            <Card className="hover:shadow-2xl transition-shadow duration-300 border border-gray-200 flex flex-col">
-              <CardHeader>
-                <CardTitle className="text-xl">
-                  Aplicación de Reconocimiento de Minerales (En desarrollo)
-                </CardTitle>
-                <CardDescription className="text-base leading-relaxed">
-                  App móvil desarrollada con React Native y FastAPI que utiliza
-                  redes neuronales convolucionales para identificar minerales a
-                  partir de imágenes.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="flex-grow">
-                <p className="text-gray-700 text-sm">
-                  <span className="font-semibold">Tecnologías:</span> React
-                  Native, FastAPI, TensorFlow, Python.
-                </p>
-              </CardContent>
-              <CardFooter className="flex gap-3 pt-4">
-                {/* 
-                <Button asChild variant="outline" className="flex-1">
-                  <a
-                    href="https://github.com/tu-usuario/earthscanner"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ver código
-                  </a>
-                </Button>
-                {/*  <Button asChild className="flex-1">
-                  <a
-                    href="https://tu-demo.vercel.app"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                  >
-                    Ver demo
-                  </a>
-                </Button> */}
-              </CardFooter>
-            </Card>
-          </div>
-        </section>
+        <Projects />
 
         {/* --- Sección de Contacto --- */}
         <section id="contacto" className="mb-24">
@@ -380,6 +171,7 @@ export default function Home() {
                 <button
                   type="submit"
                   className="w-full bg-black text-white hover:bg-gray-800 transition-all duration-200 py-6 text-base font-semibold"
+                  disabled={!nombre || !correo || !descripcion || respuesta}
                 >
                   📧 Enviar Mensaje
                 </button>
